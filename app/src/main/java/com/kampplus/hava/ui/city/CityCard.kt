@@ -48,7 +48,6 @@ fun CityCard(city: City, onClick: () -> Unit, modifier: Modifier = Modifier) {
                 Text(
                     text = city.name,
                     style = MaterialTheme.typography.titleMedium,
-                    // Tek satıra sığmayan ad "..." ile kısaltılır, satır kaymaz.
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -59,10 +58,18 @@ fun CityCard(city: City, onClick: () -> Unit, modifier: Modifier = Modifier) {
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
+
+                Text(
+                    text = "🌟 Meşhur: ${city.displayFamousFor}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(top = 2.dp)
+                )
             }
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                // Ok yalnızca görseldir; "dokunulabilir" bilgisini Card zaten verir.
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -105,7 +112,8 @@ private fun CityCardPreview() {
                 longitude = 32.85427,
                 countryCode = "TR",
                 country = "Türkiye",
-                admin1 = "Ankara"
+                admin1 = "Ankara",
+                famousFor = "Ankara Simidi ve Çorbası" // <-- Buraya test için yazdık
             ),
             onClick = {}
         )

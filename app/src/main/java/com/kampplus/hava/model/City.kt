@@ -30,15 +30,23 @@ data class City(
     val name: String,
     val latitude: Double,
     val longitude: Double,
-    // JSON'da alt çizgili (country_code), Kotlin'de camelCase (countryCode).
-    // @SerializedName iki ismi birbirine bağlar.
     @SerializedName("country_code")
     val countryCode: String?,
     val country: String?,
-    // Bazı kayıtlarda bölge bilgisi gelmez; soru işareti uygulamayı çökmekten korur.
-    val admin1: String?
+    val admin1: String?,
+    val famousFor: String? = ""
 ) {
-    /** Kartta ve tahmin ekranında gösterilen alt yazı: "Ankara, Türkiye". */
     val subtitle: String
         get() = listOfNotNull(admin1, country).distinct().joinToString(", ")
+
+    // --- BU KISMI EKLİYORUZ ---
+    val displayFamousFor: String
+        get() = when {
+            !famousFor.isNullOrBlank() -> famousFor
+            name.equals("Ankara", ignoreCase = true) && countryCode == "TR" -> "Ankara Simidi ve Çorbası 🥯"
+            name.equals("İstanbul", ignoreCase = true) -> "Boğaz ve Simit 🌊"
+            name.equals("İzmir", ignoreCase = true) -> "Boyoz ve Kumru 🥪"
+            countryCode == "TR" -> "Güzel Türk şehri 🇹🇷"
+            else -> "Keşfedilmeyi bekleyen nokta ✨"
+        }
 }

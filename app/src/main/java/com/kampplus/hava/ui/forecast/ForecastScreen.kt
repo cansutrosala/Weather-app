@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -147,6 +148,7 @@ private fun ForecastContent(subtitle: String, forecast: Forecast, modifier: Modi
 }
 
 /** Büyük sıcaklık + durum etiketi + hissedilen/nem/rüzgâr üçlüsü. */
+/** Büyük sıcaklık + durum etiketi + esprili tavsiye + hissedilen/nem/rüzgâr üçlüsü. */
 @Composable
 private fun CurrentWeatherHeader(subtitle: String, current: CurrentWeather, modifier: Modifier = Modifier) {
     val condition = WeatherCondition.fromWeatherCode(current.weatherCode)
@@ -166,6 +168,21 @@ private fun CurrentWeatherHeader(subtitle: String, current: CurrentWeather, modi
                 Text(text = condition.label, style = MaterialTheme.typography.titleMedium)
             }
         }
+
+        // --- YENİ EKLENEN ESPRİLİ TAVSİYE KARTI ---
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(
+                text = "💡 ${condition.advice}",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        // ------------------------------------------
+
         Card(modifier = Modifier.fillMaxWidth()) {
             Row(
                 modifier = Modifier
@@ -173,7 +190,6 @@ private fun CurrentWeatherHeader(subtitle: String, current: CurrentWeather, modi
                     .padding(vertical = 12.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                // Bu üç alan servis tarafından gönderilmeyebilir; yalnızca varsa çizilir.
                 current.apparentTemperatureC?.let {
                     Metric(stringResource(R.string.detail_feels_like), degrees(it))
                 }

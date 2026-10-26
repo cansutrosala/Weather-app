@@ -7,27 +7,21 @@ package com.kampplus.hava.model
  * standardındadır ve tek başına bir sayıdır (0, 61, 95...). Kullanıcıya sayı
  * gösteremeyiz; [fromWeatherCode] ile anlaşılır bir görünüme çeviririz.
  */
-enum class WeatherCondition(val emoji: String, val label: String) {
-    CLEAR("☀️", "Açık"),
-    MAINLY_CLEAR("🌤️", "Az bulutlu"),
-    PARTLY_CLOUDY("⛅", "Parçalı bulutlu"),
-    OVERCAST("☁️", "Kapalı"),
-    FOG("🌫️", "Sisli"),
-    DRIZZLE("🌦️", "Çisenti"),
-    RAIN("🌧️", "Yağmurlu"),
-    SNOW("🌨️", "Karlı"),
-    RAIN_SHOWERS("🌦️", "Sağanak yağış"),
-    SNOW_SHOWERS("🌨️", "Kar sağanağı"),
-    THUNDERSTORM("⛈️", "Gök gürültülü fırtına"),
-    UNKNOWN("🌡️", "Bilinmiyor");
+enum class WeatherCondition(val emoji: String, val label: String, val advice: String) {
+    CLEAR("☀️", "Açık", "Hava pırıl pırıl, güneş kremini sürmeyi unutma! 😎"),
+    MAINLY_CLEAR("🌤️", "Az bulutlu", "Güneş yüzünü gösterdi, keyfini çıkar! ✨"),
+    PARTLY_CLOUDY("⛅", "Parçalı bulutlu", "Ne sıcak ne soğuk, yürüyüş için ideal! 🚶‍♂️"),
+    OVERCAST("☁️", "Kapalı", "Hava biraz kapalı ama senin enerjin buraları ısıtır! ⛅"),
+    FOG("🌫️", "Sisli", "Önünü iyi seç, simit alırken kaybolma! 🥯"),
+    DRIZZLE("🌦️", "Çisenti", "Hafiften çiseliyor, şemsiye opsiyonel! ☔"),
+    RAIN("🌧️", "Yağmurlu", "Şemsiyeni almadan dışarı çıkma, sırılsıklam olursun! ☂️"),
+    SNOW("🌨️", "Karlı", "Kartopu savaşı vakti, sıkı giyin! ⛄"),
+    RAIN_SHOWERS("🌦️", "Sağanak yağış", "Ani suya yakalanma, koşarak eve git! 🏃‍♂️"),
+    SNOW_SHOWERS("🌨️", "Kar sağanağı", "Lapa lapa kar var, salep içmek için harika gün! ☕"),
+    THUNDERSTORM("⛈️", "Gök gürültülü fırtına", "Şimşekler çakıyor, elektronikleri kapatıp evde oturma vakti! ⚡"),
+    UNKNOWN("🌡️", "Bilinmiyor", "Hava nasıl olursa olsun keyfin yerinde olsun! 😊");
 
     companion object {
-        /**
-         * WMO 4677 kod tablosu. `when` ifadesi birden çok kodu tek bir görünüme eşler
-         * (örneğin 61, 63 ve 65 hafif/orta/şiddetli yağmurdur; üçü de "Yağmurlu").
-         *
-         * Tanınmayan bir kod gelirse uygulama çökmez, [UNKNOWN] ile devam eder.
-         */
         fun fromWeatherCode(code: Int): WeatherCondition = when (code) {
             0 -> CLEAR
             1 -> MAINLY_CLEAR
